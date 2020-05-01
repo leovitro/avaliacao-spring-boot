@@ -1,15 +1,60 @@
 package br.com.tokiomarine.seguradora.avaliacao.controller;
 
-// TODO não esquecer de usar as anotações para criação do restcontroller
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.tokiomarine.seguradora.avaliacao.entidade.Estudante;
+import br.com.tokiomarine.seguradora.avaliacao.service.EstudanteServiceImpl;
+
+@RestController
+@RequestMapping("/api/estudantes/")
 public class EstudanteRestController {
 
-	// TODO caso você não conheça THEMELEAF faça a implementação dos métodos em forma de RESTCONTROLLER (seguindo o padrão RESTFUL)
+	@Autowired
+	private EstudanteServiceImpl service;
 
-	// TODO IMPLEMENTAR CADASTRO DE ESTUDANTES (POST)
+	@PostMapping
+	public ResponseEntity<Estudante> adicionarEstudante(@Valid @RequestBody Estudante estudante) {
+		
+		estudante = service.cadastrarEstudante(estudante);
+		
+		return ResponseEntity.ok(estudante);
+		
+	}
 
-	// TODO IMPLEMENTAR ATUALIZACAO DE ESTUDANTES (PUT)
+	@PutMapping("/{id}")
+	public ResponseEntity<Estudante> atualizarEstudante(@PathVariable long id, @Valid @RequestBody Estudante estudante) {
 
-	// TODO IMPLEMENTAR A LISTAGEM DE ESTUDANTES (GET)
+		estudante.setId(id);
+		estudante = service.atualizarEstudante(estudante);
+		if(estudante!=null) {
+			return ResponseEntity.ok(estudante);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
+			
+	}
 
-	// TODO IMPLEMENTAR A EXCLUSÃO DE ESTUDANTES (DELETE)
+	@GetMapping
+	public List<Estudante> listarEstudantes() {
+		return service.buscarEstudantes();
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Estudante> apagarEstudante(@PathVariable long id) {
+		service.apagarEstudante(id);
+		return ResponseEntity.ok().build();
+	}	
 }
