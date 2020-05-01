@@ -2,6 +2,7 @@ package br.com.tokiomarine.seguradora.avaliacao.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.tokiomarine.seguradora.avaliacao.entidade.Estudante;
-import br.com.tokiomarine.seguradora.avaliacao.service.EstudandeService;
+import br.com.tokiomarine.seguradora.avaliacao.service.EstudanteServiceImpl;
 
 @Controller
 @RequestMapping("/estudantes/")
 public class EstudanteController {
 
-	// TODO efetue a correção dos problemas que existem na classe Estudante Controller
-	EstudandeService service;
+	@Autowired
+	private EstudanteServiceImpl service;
 
 	@GetMapping("criar")
 	public String iniciarCastrado(Estudante estudante) {
@@ -27,7 +28,7 @@ public class EstudanteController {
 
 	@GetMapping("listar")
 	public String listarEstudantes(Model model) {
-		model.addAttribute("estudtes", service.buscarEstudantes());
+		model.addAttribute("estudantes", service.buscarEstudantes());
 		return "index";
 	}
 
@@ -43,7 +44,7 @@ public class EstudanteController {
 	}
 
 	@GetMapping("editar/{id}")
-	public String exibirEdicaoEstudante(long id, Model model) {
+	public String exibirEdicaoEstudante(@PathVariable("id") long id, Model model) {
 		Estudante estudante = service.buscarEstudante(id);
 		model.addAttribute("estudante", estudante);
 		return "atualizar-estudante";
@@ -52,7 +53,7 @@ public class EstudanteController {
 	@PostMapping("atualizar/{id}")
 	public String atualizarEstudante(@PathVariable("id") long id, @Valid Estudante estudante, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			// estudante.setId(id);
+			estudante.setId(id);
 			return "atualizar-estudante";
 		}
 
@@ -64,7 +65,8 @@ public class EstudanteController {
 
 	@GetMapping("apagar/{id}")
 	public String apagarEstudante(@PathVariable("id") long id, Model model) {
-		// TODO IMPLEMENTAR A EXCLUSAO DE ESTUDANTES
+		Estudante estudante = service.buscarEstudante(id);
+		service.apagarEstudante(estudante);
 		model.addAttribute("estudantes", service.buscarEstudantes());
 		return "index";
 	}
