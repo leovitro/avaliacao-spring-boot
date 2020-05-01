@@ -25,7 +25,7 @@ public class EstudanteController {
 	public String iniciarCastrado(Estudante estudante) {
 		return "cadastrar-estudante";
 	}
-
+	
 	@GetMapping("listar")
 	public String listarEstudantes(Model model) {
 		model.addAttribute("estudantes", service.buscarEstudantes());

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 public class Estudante {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotBlank(message = "Nome é obrigatório")
@@ -20,6 +20,11 @@ public class Estudante {
 	private String email;
 	
 	private String telefone;
+	
+	@NotBlank(message = "Matrícula é obrigatória")
+	private String matricula;
+	
+	private String curso;
 
 	public Long getId() {
 		return id;
@@ -45,10 +50,21 @@ public class Estudante {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
+	public String getMatricula() {
+		return matricula;
+	}
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+	public String getCurso() {
+		return curso;
+	}
+	public void setCurso(String curso) {
+		this.curso = curso;
+	}
 	@Override
 	public String toString() {
-		return String.format("Estudante [%d, %s, %s, %s]", id, nome, email, telefone);
+		return String.format("Estudante [%d, %s, %s, %s, %s, %s]", id, nome, email, telefone, matricula, curso);
 	}
 	
 }
