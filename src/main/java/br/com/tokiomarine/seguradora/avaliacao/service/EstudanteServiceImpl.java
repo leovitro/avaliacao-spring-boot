@@ -33,10 +33,14 @@ public class EstudanteServiceImpl implements EstudandeService {
 	
 	@Override
 	public void apagarEstudante(@Valid Estudante estudante) {
-		if(repository.findById(estudante.getId()).isPresent()) {
-			repository.delete(estudante);
-		} else {
-			throw new IllegalArgumentException("Identificador inválido:" + estudante.getId());
+		repository.delete(estudante);
+	}	 
+	
+	@Override
+	public void apagarEstudante(long id) {
+		Optional<Estudante> estudante = repository.findById(id);
+		if(estudante.isPresent()){
+			repository.delete(estudante.get());
 		}
 	}	
 

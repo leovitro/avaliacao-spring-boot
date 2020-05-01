@@ -65,8 +65,7 @@ public class EstudanteController {
 
 	@GetMapping("apagar/{id}")
 	public String apagarEstudante(@PathVariable("id") long id, Model model) {
-		Estudante estudante = service.buscarEstudante(id);
-		service.apagarEstudante(estudante);
+		service.apagarEstudante(id);
 		model.addAttribute("estudantes", service.buscarEstudantes());
 		return "index";
 	}

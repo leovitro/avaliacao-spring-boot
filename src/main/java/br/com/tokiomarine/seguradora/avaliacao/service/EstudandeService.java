@@ -17,4 +17,5 @@ public interface EstudandeService {
 	void atualizarEstudante(@Valid Estudante estudante);
 	
 	void apagarEstudante(@Valid Estudante estudante);
+	void apagarEstudante(long id);
 }
